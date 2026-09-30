@@ -1,0 +1,13 @@
+\begin{abstract}
+Graph Neural Additive Networks (GNANs) use hop distance on binary graphs, whereas structural
+connectomes are dense and weighted. We introduce W-GNAN, which replaces hop-distance modulation
+with a monotone edge-weight function while retaining an exact algebraic decomposition of the logit
+for a fixed graph. On synthetic graphs with fixed topology, topology-only variants are at chance;
+weighted variants reach AUROC 0.87--0.95 and recover the generating weight-function shape over the
+observed support. On 869 structural connectomes (60 positive screens for probable PTSD), W-GNAN
+achieves AUROC 0.584 [0.52, 0.65] versus 0.588 [0.52, 0.65] for edge-wise logistic regression; the
+paired interval does not resolve a difference. A held-out region-level audit finds that none of three
+hypothesis-motivated networks exceeds its label-permutation null, while GNNExplainer node masks are
+stable but nearly label-invariant. Exact model decomposition therefore does not by itself establish a
+reproducible neurobiological marker.\footnote{Code for this project is available at \url{https://github.com/yodesser/W-GNAN-Connectomics}}
+\end{abstract}

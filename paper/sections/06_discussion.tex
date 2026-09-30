@@ -1,0 +1,23 @@
+\section{Discussion}
+\label{sec:discussion}
+
+W-GNAN adds a monotone weighted interaction to a specified one-hop GNAN while preserving an exact
+fixed-graph logit identity. Synthetic controls verify that this channel can use weights when topology
+is uninformative. In the pilot cohort, W-GNAN and edge-wise LR have an unresolved performance
+difference; this neither establishes equivalence nor validates a brain mechanism. The region audit
+similarly finds no network statistic beyond its permutation null.
+The modest AUROC of about .58 matches the limited out-of-sample accuracy of the largest multisite
+PTSD classification study \citep{zhu2023enigma}, and the held-out non-replication of region rankings
+fits the large cross-validation error bars expected at this sample size \citep{varoquaux2018cvfailure}
+and the unestablished status of data-driven PTSD markers \citep{neria2022datadriven}. The nearly
+label-invariant GNNExplainer masks show that a stable post-hoc explanation need not reflect
+label-relevant reasoning \citep{ying2019gnnexplainer,adebayo2018sanity}; an exact intrinsic
+decomposition avoids that gap but does not by itself guarantee replicable regions.
+
+\paragraph{Limitations \& Deviations.}
+The single-site cohort yields only 60 positive screens and lacks acquisition descriptors. Preprocessing
+and architecture choices---such as fixed clipping, dropping low-variance edges for GNNs, and omitting
+contrastive pretraining or multi-head GCNs due to time constraints---restrict the scope. Our GCN/GAT
+baselines are not exact reproductions of prior work. The audit analyzes region terms
+$t_i$ rather than pairwise $C_{ij}$ or full perturbations, and permutation budgets differ between
+models. Future work should validate across sites, retain raw edge support and audit held-out tracts.

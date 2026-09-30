@@ -1,0 +1,30 @@
+{
+  "model": "lr_edges",
+  "runtime_s": 958.2,
+  "saved": "2026-09-23 09:48",
+  "features": "lr_edges",
+  "C_grid": [
+    0.001,
+    0.01,
+    0.1,
+    1.0
+  ],
+  "chosen_C": [
+    1.0,
+    0.001,
+    1.0,
+    0.1,
+    0.01,
+    0.001,
+    0.001,
+    0.1,
+    1.0,
+    0.1,
+    0.1,
+    0.001,
+    0.1,
+    0.1,
+    1.0
+  ],
+  "preprocessing": "norm (log10, relative to weakest edge)"
+}

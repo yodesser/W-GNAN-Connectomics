@@ -1,0 +1,21 @@
+{
+  "n_explained": 120,
+  "max_abs_logit_mismatch_vs_saved": 3.8743019104003906e-07,
+  "gat_auroc_on_explained": 0.4805555555555555,
+  "rho_gnnexpl_vs_wgnan_mean": -0.02626977620360001,
+  "rho_gnnexpl_vs_wgnan_min_max": [
+    -0.11536136131845127,
+    0.03717164193766756
+  ],
+  "top30_overlap_mean": 1.4,
+  "top30_overlap_chance": 2.0833333333333335,
+  "gnnexpl_fold_stability_rho": 0.9351142856632533,
+  "rho_pos_vs_neg_masks_mean": 0.9640090583019985,
+  "rho_gnnexpl_vs_strength_mean": 0.0485244464925426,
+  "rho_wgnan_vs_strength_mean": 0.03502355015191054,
+  "network_mean_z_gnnexpl": {
+    "Cont": 0.1256638616323471,
+    "SalVentAttn": -0.2605086863040924,
+    "Default": 0.0366835817694664
+  }
+}

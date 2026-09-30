@@ -1,0 +1,31 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Graph learning on connectomes.}
+Message-passing GNNs \citep{kipf2017gcn,velickovic2018gat} are the default model for connectomes,
+benchmarked across many datasets by NeuroGraph \citep{said2023neurograph}. For structural
+connectomes, \citet{kazi2024multihead} combine edge- and node-centred convolutions in a multi-head
+GCN, and \citet{jeong2025gcnptsd} report a pilot GNN study of trauma-exposed youth. Such models are
+not additively decomposable in their usual form; post-hoc methods such as GNNExplainer
+\citep{ying2019gnnexplainer} optimize masks rather than expose an algebraic prediction sum.
+
+\paragraph{Interpretable-by-design models.}
+Generalised additive models \citep{hastie1986gam} write a prediction as a sum of univariate shape
+functions; neural additive models \citep{agarwal2021nam} learn them with small networks. GNAN
+\citep{bechler2024gnan} carries this to graphs: node features pass through shape functions and
+interact through a learned function of \emph{hop distance}, making the model exactly decomposable.
+The distance mechanism is designed for binary topology. Our narrower contribution is a monotone
+weight-modulated, one-hop interaction with a fixed-graph logit decomposition; we do not claim the
+first weighted or interpretable graph model in general, as weighted \citep{kawahara2017brainnetcnn} and interpretable
+\citep{li2021braingnn} connectome networks exist, though neither is additively decomposable.
+
+\paragraph{PTSD connectomics and small-sample evaluation.}
+Network accounts of PTSD motivate attention to default-mode, salience and central-executive systems
+\citep{menon2011triplenetwork,akiki2017network}, and graph studies report disrupted structural
+organisation \citep{suo2017smallworld}. Machine-learning studies classify PTSD from such networks
+\citep{nicholson2020ptsdml}, but the largest multisite effort finds only modest out-of-sample
+accuracy \citep{zhu2023enigma} and data-driven markers remain unestablished
+\citep{neria2022datadriven}. With few positives, cross-validated estimates carry large error bars
+\citep{varoquaux2018cvfailure} and leakage inflates results \citep{kapoor2023leakage}, which
+motivates frozen splits, inner-fold selection, bootstrap intervals and a held-out audit. These prior
+findings motivate hypotheses; they are not ground-truth tract biomarkers for our cohort.

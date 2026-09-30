@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+
+# Local caches, protected data and trained weights (never commit subject data)
+.gml_cache/
+data/
+results/models/
+
+# LaTeX build artifacts (paper/main.pdf is committed)
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.tmp
+
+# OS clutter
+.DS_Store
+desktop.ini
+Thumbs.db
+
+# Subject-level files (subject IDs, per-subject labels/predictions/masks) -- never publish
+splits/cv_splits.csv
+results/preds/*.csv
+results/explain/gnnexplainer_meta.csv
+results/explain/gnnexplainer_node_imp.npy

@@ -1,0 +1,17 @@
+\begin{tabular}{lcc}
+\toprule
+\multicolumn{3}{l}{\emph{Classification (PCL-5 $\geq$ 33)}} \\
+Model & AUROC [95\% CI] & $\Delta$AUROC vs.\ LR edges \\
+\midrule
+LR: scale only (total, density) & 0.487 [0.42, 0.55] & $-0.101$ [$-0.183$, $-0.004$] \\
+LR: age + sex & 0.452 [0.40, 0.50] & $-0.135$ [$-0.21$, $-0.06$] \\
+LR edges, old log1p pipeline & 0.595 [0.52, 0.66] & $+0.006$ [$-0.03$, $+0.04$] \\
+LR edges, age/sex/total removed & 0.583 [0.52, 0.65] & $-0.005$ [$-0.02$, $+0.01$] \\
+\midrule
+\multicolumn{3}{l}{\emph{Regression on PCL-5 score}$^\dagger$} \\
+Model & MAE & $R^2$ / Spearman $\rho$ \\
+\midrule
+Constant (predict 3) & 8.09 & -- \\
+Ridge on edges & 9.40 & $-0.000$ / 0.031 ($p=0.35$) \\
+\bottomrule
+\end{tabular}

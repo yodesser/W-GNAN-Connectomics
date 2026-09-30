@@ -1,0 +1,48 @@
+{
+  "model": "gcn",
+  "runtime_s": 0.8,
+  "saved": "2026-09-23 11:18",
+  "folds": [
+    [
+      0,
+      0,
+      11
+    ],
+    [
+      0,
+      1,
+      15
+    ],
+    [
+      0,
+      2,
+      43
+    ],
+    [
+      0,
+      3,
+      1
+    ],
+    [
+      0,
+      4,
+      47
+    ]
+  ],
+  "config": {
+    "keep_frac": 0.2,
+    "hidden": 64,
+    "heads": 2,
+    "dropout": 0.6,
+    "in_dropout": 0.6,
+    "lr": 0.0005,
+    "wd": 0.0001,
+    "batch": 32,
+    "max_epochs": 150,
+    "patience": 30,
+    "min_epochs": 10,
+    "seed": 0
+  },
+  "edge_weight": "non-negative norm L_ij",
+  "preprocessing": "norm (log10, relative to weakest edge)"
+}

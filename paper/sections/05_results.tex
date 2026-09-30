@@ -1,0 +1,96 @@
+\section{Results}
+\label{sec:results}
+
+\subsection{Synthetic mechanism check}
+\label{sec:res-synth}
+\begin{table}[t]
+\centering\scriptsize\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{\input{tables/synthetic_v2b}}
+\caption{Synthetic test AUROC (mean$\pm$SD, five seeds). corr$(g,\hat g)$ is Pearson correlation
+over the 5th--95th percentile of observed training weights; last row: node-only W-GNAN AUROC and top-4 precision for planted regions.}
+\label{tab:synthetic}
+\end{table}
+
+Each seed generated 700 balanced 36-node graphs (420/140/140 train/validation/test), Beta$(2,2)$
+weights, noise SD $0.12$ times latent-score SD, and one topology shared across splits (except the
+binary case, which varies topology). Graph cases set $u_i$ to a learned centred region constant to
+isolate the interaction channel. The topology-only model is at chance for the three fixed-topology
+cases, while weighted variants reach 0.87--0.95 (Table~\ref{tab:synthetic}). Learned $g$ tracks the
+generating shape over observed support (Figure~\ref{fig:synthetic}; correlations .969--.996). Its threshold-case advantage over
+fixed $g(w)=w$ is descriptive ($.95\pm.04$ vs. $.91\pm.01$), not a formal superiority test. With
+binary weights, all variants coincide within numerical precision, and node-only W-GNAN retrieves the
+four planted regions with top-4 precision .95.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=.86\textwidth]{figures/fig2_synthetic_v2b.pdf}
+\caption{Learned $g$ (mean$\pm$SD across five seeds) against the generator; grey shading marks the
+observed-weight support on which correlation is reported. Right: real-data fold curves remain near
+their identity initialization, a training diagnostic rather than evidence that no nonlinear signal
+exists.}
+\label{fig:synthetic}
+\end{figure*}
+
+\subsection{Probable-PTSD benchmark}
+\label{sec:res-bench}
+\begin{table}[t]
+\centering\scriptsize\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{\input{tables/benchmark_main}}
+\caption{Held-out performance (60/869 positives). AUROC/AUPRC are repeat means; intervals are
+1,000-resample subject-cluster bootstraps. Deltas are paired with LR edges; GNN deltas pair repeat 0
+only. AUPRC prevalence is .069. $^\ast$Repeat 0 only, on low-CV sparsified inputs (\S\ref{sec:setup}).}
+\label{tab:benchmark}
+\end{table}
+
+LR edges exceeds the constant-score majority reference in the paired comparison
+($\Delta=.087$ [.02, .15]) and reaches AUROC .588 [.52, .65] (Table~\ref{tab:benchmark}). W-GNAN
+learned $g$ reaches .584 [.52, .65], with paired $\Delta=-.005$ [$-.07,.07$]; this interval neither
+resolves a difference nor establishes equivalence. The fixed-weight and topology ablations are lower
+but their paired intervals include zero, so they do not establish that weighting is irrelevant. GAT
+(.539) and GCN (.515) reflect only the stated sparsification and one-repeat design.
+
+\subsection{Diagnostics and selected nuisances}
+\label{sec:res-sanity}
+\begin{table}[t]
+\centering\scriptsize\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{\input{tables/sanity}}
+\caption{Selected checks. Classification uses the final repeated-CV protocol. $^\dagger$Regression
+is from an earlier five-fold pipeline and is not directly comparable with Table~\ref{tab:benchmark}.}
+\label{tab:sanity}
+\end{table}
+
+Age/sex and total-streamline/density models have AUROC .452 and .487; train-fold residualisation on
+age, sex and total streamlines changes LR-edge AUROC by $-.005$ [$-.02,.01$]. These checks find no
+predictive contribution from those measured variables under the tested linear controls; they do not
+rule out all confounding or nonlinear interactions. Exploratory cutoffs 30/25/20 yield strength-LR
+AUROC .53--.56 (separate five-fold CV; all intervals include .5). Earlier continuous-score ridge
+regression is worse than a constant in MAE (9.40 vs. 8.09). Across the 15 W-GNAN folds, $\lambda$
+stays near its initial 1 (median .97) and $g$ near identity (Figure~\ref{fig:synthetic}, right). This is an optimization diagnostic, not proof that the cohort lacks weight-dependent
+signal.
+
+\subsection{Region-level interpretability audit}
+\label{sec:res-interp}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=.86\textwidth]{figures/fig4_interp.pdf}
+\caption{Region-level audit. (a) Mean pairwise Spearman correlation between rankings from five
+all-subject seeds of an earlier prototype and from its 25 held-out fits. (b) Observed statistics standardized by their own permutation-null mean
+and SD; bars show null 95\% intervals. (c) Per-fold Spearman $\rho$ of positive-subject GNNExplainer node masks with $|t_i|$ group
+differences (blue) and with control-subject masks (orange).}
+\label{fig:interp}
+\end{figure*}
+
+The earlier prototype's all-subject seed rankings agree strongly ($\rho=.88$), whereas rankings from
+its held-out fits agree weakly ($\rho=.21$; Figure~\ref{fig:interp}a). Because architecture, training population and sample size
+also differ, this contrast demonstrates non-replication in that pipeline but does not isolate subject
+reuse as the cause. For the final audit (Figure~\ref{fig:interp}b), stability does not exceed its label-permutation null (LR
+$p=.07$; W-GNAN $p=.85$), and no hypothesis-motivated network crosses $\alpha=.0167$
+(Control/Salience/Default: LR $p=.10/.16/.88$; W-GNAN $p=.22/.56/.67$). Resolution is .002 for LR
+and .010 for W-GNAN; non-significance is not equivalence or evidence of no biological effect.
+
+GNNExplainer's nonnegative node masks are compared per fold with absolute W-GNAN region allocations (Figure~\ref{fig:interp}c):
+mean Spearman $\rho=-.03$ (range $-.12$ to $.04$) and top-30 overlap 1.4 regions (chance 2.1, continuous
+masks ranked by deterministic order). Positive/control masks are nearly identical ($\rho=.96$) and
+positive-mask stability across folds is .94; the explained-set GAT AUROC is .48. Mask
+stability therefore does not establish label-specific information, and mask sign/direction is
+not recoverable.

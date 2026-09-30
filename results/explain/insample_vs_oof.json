@@ -1,0 +1,12 @@
+{
+  "in_sample": {
+    "mean_rho": 0.8813093033072619,
+    "median_rho": 0.8861647397278054,
+    "sign_consistency": 1.0
+  },
+  "out_of_fold": {
+    "mean_rho": 0.20951262209949514,
+    "median_rho": 0.2172459093109281,
+    "sign_consistency": 0.5333333333333333
+  }
+}

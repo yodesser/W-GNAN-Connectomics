@@ -1,0 +1,60 @@
+\section{Experimental Setup}
+\label{sec:setup}
+
+\paragraph{Cohort.}
+The single-site cohort was provided by Yaniv Assaf's laboratory. The available pool contained 1,191
+scans from 919 participants. Density bounds $0.40<d<0.65$ removed 74 scans from 50 artifact-group
+participants, all of whose scans were excluded; selecting one scan per remaining participant yielded 869 unique subjects. Nodes are
+400 Schaefer cortical parcels \citep{schaefer2018atlas} plus 32 Tian-S2 subcortical parcels
+\citep{tian2020subcortical}; matrices came from iFOD2 tractography with SIFT2 streamline weights
+\citep{smith2015sift2}. The target is a positive screen for \emph{probable} PTSD,
+$y=\mathbf1[\mathrm{PCL\mbox{-}5}\geq33]$ \citep{blevins2015pcl5}: 60/869 (6.9\%). PCL-5 was
+complete (median 3, IQR 0--11); age was $31.1\pm9.8$ years, with 536 coded male, 332 female and one
+mode-imputed missing value. Acquisition descriptors were unavailable in the analysis artifacts.
+
+\paragraph{Preprocessing.}
+For each subject, with $T=\sum_{kl}W_{kl}$ and present-edge set $E$, the code computes
+$A=W/(T+10^{-12})$ and
+$L_{ij}=\log_{10}(A_{ij}+10^{-8})-\min_{(k,l)\in E}\log_{10}(A_{kl}+10^{-8})$ on $E$, and zero
+otherwise. Up to numerical offsets this is $\log_{10}(W_{ij}/\min_EW)$: $T$ cancels, so weights are
+relative to the weakest present edge. That edge maps to zero and the tested W-GNAN mask $L>0$ drops
+it, although raw-support degree retains it.
+W-GNAN scales $L$ by the training-fold 99th percentile to $[0,1]$; all learned transforms are fit on
+training data only.
+
+\paragraph{Models.}
+The reference is $\ell_2$ logistic regression (LR) on 93,096 upper-triangle edges; LR strengths uses
+432 row sums (balanced weights, $C\in\{10^{-3},10^{-2},10^{-1},1\}$). Two-layer GAT/GCN models use
+the training-set 20\% lowest-CV edges; node features are each $L$ row, Yeo-7 one-hot and participation
+coefficient, followed by mean/max pooling, dropout .6 and class-weighted loss. Their results therefore
+describe this sparsification policy, not unrestricted GNN performance. W-GNAN uses AdamW (lr
+$5\times10^{-3}$), batch 64, at most 200 epochs, validation-AP stopping (patience 25), gradient norm
+5, class weight $n_0/n_1$, zero weight decay, and $10^{-3}$ penalties on mean-squared region-shape
+knots and second-difference smoothness of the node/gate shapes.
+
+\paragraph{Prediction protocol.}
+All models share stratified 5-fold CV repeated three times (seed 2026), with a stratified 20\% inner
+validation split. Hyperparameters, stopping epoch and balanced-accuracy threshold use validation data;
+test folds are scored once. GNNs use repeat 0. Within each repeat, fold scores are percentile-ranked,
+pooled and scored; reported AUROC/AUPRC are means across repeats (AUPRC prevalence .069). A
+1,000-sample clustered bootstrap resamples subject IDs and retains all repeated predictions; paired
+deltas use the same IDs. GNN deltas use only the matching repeat-0 LR predictions. These
+frozen-prediction intervals omit retraining/selection uncertainty. With 60 positives, an AUROC near
+.6 already has SE $\approx.04$ \citep{varoquaux2018cvfailure}.
+
+\paragraph{Region-level audit.}
+Each test fold yields a region score $c_i$. For W-GNAN, $c_i$ is the held-out group difference in
+allocated totals $t_i=u_i+\lambda\mathrm{neigh}_i$ (we do not audit $C_{ij}$); for LR, it is the
+coefficient times the standardised held-out group difference. A network's score is
+$(|c_i|-\overline c)/\mathrm{sd}(c)$ within each fold, averaged over folds and over the network's
+cortical Yeo-7 nodes \citep{yeo2011networks}; ``Cont'' proxies Central Executive and subcortex is
+excluded. \emph{Stability} is the mean pairwise Spearman correlation between the folds' score
+vectors $c$. The three
+networks were proposal/literature-motivated, but the exact protocol came later. Global label
+permutations preserve total class count; transforms/W-GNAN are refit, while LR reuses observed-run
+fold-specific $C$ (500 LR/15 folds; 100 W-GNAN/5 folds). One-sided
+$p=(1+\#\{N\geq O\})/(P+1)$ with $\alpha=.05/3$. As a descriptive reference, we also compare region rankings from an earlier W-GNAN prototype
+(different architecture and training population), refit with five seeds on all subjects and in
+25 held-out cross-validation fits. GNNExplainer jointly optimizes nonnegative
+node and edge masks; we audit its node mask (100 epochs, positive-class target) for all 60 positives
+and 12 test negatives randomly selected per fold with seed 0, each with its held-out GAT.

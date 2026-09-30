@@ -1,0 +1,32 @@
+\section{Introduction}
+\label{sec:intro}
+
+Diffusion MRI turns each brain into a weighted graph: regions are nodes and white-matter tracts,
+quantified by tractography-derived weights, are edges. PTSD has been linked to altered large-scale organisation
+of such networks \citep{suo2017smallworld,akiki2017network}, making graph learning a natural tool
+for studying it. Explanations of predictions may be useful for model auditing, yet message-passing
+GNNs \citep{kipf2017gcn,velickovic2018gat} commonly require post-hoc tools
+\citep{ying2019gnnexplainer}. GNAN \citep{bechler2024gnan} is algebraically decomposable,
+but lets nodes interact through their \emph{hop distance}, which is uninformative in dense
+connectomes when nearly every pair is one or two hops apart. Our cohort has only 60 positive screens,
+the small-sample regime typical of clinical neuroimaging. We therefore test the mechanism where it
+can be verified (synthetic data) and treat the real-data results, positive or negative, as an
+empirical study with correspondingly limited inferential scope.
+
+\paragraph{Research questions.} Methodologically, can a one-hop GNAN be extended to dense,
+continuously weighted graphs while retaining an exact fixed-graph logit decomposition? Empirically,
+in a pilot cohort of 869 subjects (60 PCL-5 positive screens), how does the extension compare with
+linear and GNN baselines for binary probable-PTSD classification, and do region-level explanations
+replicate on held-out subjects?
+
+\paragraph{Contributions.}
+\textbf{(C1)} W-GNAN, with region-specific shape functions and a monotone edge function $g(w)$,
+whose logit decomposes into node and pairwise-interaction terms and which reduces to a specified
+mean-aggregating one-hop GNAN on binary graphs (\S\ref{sec:method}).
+\textbf{(C2)} A synthetic validation in which topology is uninformative by construction
+(\S\ref{sec:res-synth}).
+\textbf{(C3)} A benchmark on shared frozen splits with bootstrap CIs and selected-nuisance checks
+(\S\ref{sec:res-bench}--\ref{sec:res-sanity}).
+\textbf{(C4)} A region-level interpretability audit: a descriptive in-sample/held-out comparison,
+label-permutation tests of hypothesis-motivated networks, and intrinsic/post-hoc agreement
+(\S\ref{sec:res-interp}).
